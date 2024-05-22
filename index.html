@@ -1,120 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--   要抄记得改一改，别傻不拉几地直接交了 -->
-<!--    -->
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Job 01</title>
-        <style>
-            html,body {
-                font-family: Arial, sans-serif;
-                background-color: #f2f2f2;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-            }
-    
-            div {
-                background-color: #fff;
-                border-radius: 5px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-                padding: 20px;
-                width: 300px;
-            }
-            
-            h1 {
-                text-align: center;
-            }
-
-            form {
-                display: flex;
-                flex-direction: column;
-                margin-right: 20px; 
-            }
-    
-            input {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-                font-size: 16px;
-                outline: none;
-            }
-    
-            input[id="tel"], input[id="password"] {
-                &::placeholder {
-                    color: #999;
-                }
-            }
-    
-            span {
-                color: red;
-                font-size: 14px;
-                margin-bottom: 5px;
-                display: none;
-            }
-    
-            button {
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px;
-                cursor: pointer;
-                border: none;
-                text-align: center;
-                width: 100%;
-                margin-top: 10px;
-                font-size: 16px;
-            }
-    
-            button[disabled] {
-                background-color: #f84040;
-                cursor: not-allowed;
-            }
-        </style>
-    
-    </head>
-    <body>
-        <div>
-            <h1>欢迎登陆</h1>
-            <form>
-                <input id="tel" placeholder="手机号码" oninput="checkInputs()" >
-                <span  id="telError">手机号码不能为空</span><br>
-                <input id="password" placeholder="登录密码" oninput="checkInputs()" >
-                <span id="passwordError">登录密码不能为空</span><br>
-            </form>
-                <button id="login" disabled>登录</button>
-
+<head>
+    <meta charset="UTF-8">
+    <meta write by 202211002267 GitHub:NuRest-nuuusu>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/3.2.31/vue.global.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-if="books.length">
+            <table border=1 style="border-collapse:collapse">
+            <tr>
+                <th>
+                    全选<input type=checkbox :checked="isCheckedAll" @click="checkboxAll()" />
+                </th>
+                <th>书名</th>
+                <th>出版日期</th>
+                <th>价格</th>
+                <th>数量</th>
+                <th>操作</th>
+            </tr>
+            <tr v-for="(item,index) in books" :key="item.id">
+                <td><input type="checkbox" v-model="item.isChecked"></td>
+                <td>{{item.bookname}}</td>
+                <td>{{item.date}}</td>
+                <td>{{item.price}}</td>
+                <td>
+                    <button @click="add(index)">+</button>
+                    {{item.count}}
+                    <button @click="less(index)" :disabled="item.count<=1">-</button>
+                </td>
+                <td><button @click="del(index)">删除</button></td>
+            </tr>
+        </table>
+        <h2>总价：¥{{totalPrice}}</h2>
         </div>
+        <h2 v-else>购物车为空</h2>
+    </div>
+    
     
     <script>
-        function checkInputs() {
-            const tel = document.getElementById('tel').value;
-            const password = document.getElementById('password').value;
-            const telError = document.getElementById('telError');
-            const passwordError = document.getElementById('passwordError');
-            const login = document.getElementById('login');
-
-            if (!tel) {
-                telError.style.display = 'block';
-            } else {
-                telError.style.display = 'none';
-            }
-
-            if (!password) {
-                passwordError.style.display = 'block';
-            } else {
-                passwordError.style.display = 'none';
-            }
-
-            if (tel && password) {
-                login.disabled = false;
-            } else {
-                login.disabled = true;
+        const app ={
+            data() {
+                return {
+                    books:[
+                        {
+                            id: 1,
+                            bookname: "计算机基础",
+                            date: "2015-9",
+                            price: 35,
+                            count: 1,
+                            isChecked: true
+                        },
+                        {
+                            id: 2,
+                            bookname: "单片机与传感器实战",
+                            date: "2016-8",
+                            price: 45,
+                            count: 1,
+                            isChecked: true
+                        },
+                        {
+                            id: 3,  
+                            bookname: "响应式网页设计",
+                            date: "2017-9",
+                            price: 49,
+                            count: 1,
+                            isChecked: true
+                        },
+                        {
+                            id: 4,
+                            bookname: "微信小程序开发与运营",
+                            date: "2019-3",
+                            price: 50,
+                            count: 1,
+                            isChecked: true
+                        },
+                    ]
+                }
+            },
+            methods: {
+                checkboxAll() {
+                    for (let item of this.books) {
+                        item.isChecked = true;
+                    }
+                },
+                add(index) {
+                    return this.books[index].count++;
+                },
+                less(index) {
+                    return this.books[index].count--;
+                },
+                del(index) {
+                    this.books.splice(index, 1);
+                },
+            },
+            computed:{
+                isCheckedAll() {
+                    return this.books.every(item => item.isChecked);
+                },
+                totalPrice() {
+                    let totalPrice = 0;
+                    for (let item of this.books) {
+                        if (item.isChecked) {
+                            totalPrice += item.price * item.count;
+                        }
+                    }
+                    return totalPrice
+                },
             }
         }
+        Vue.createApp(app).mount("#app")
     </script>
+    
 </body>
 </html>
