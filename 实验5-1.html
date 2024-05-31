@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta write by 202211002267  GitHub NuRest-nuuusu>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p4</title>
+    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/3.2.31/vue.global.min.js"></script>
+    <style>
+        .error {
+            color: red;
+            display: none;
+        }
+        .login-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .login-btn[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <my-com :msg="userInfo"></my-com>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+            return {
+                    userInfo:{
+                        name:"lwk",
+                        age:18,
+                        address:"xi'an",
+                        wg:65
+                    }
+                }
+            },
+            components:{
+                "my-com":{
+                props:["msg"],
+                template:'<li v-for="(item,index) in msg" :key = index >{{item}}</li>'
+                }
+            }
+        })
+        
+                
+
+        const vm = app.mount("#app")
+    </script>
+</html>

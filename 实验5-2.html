@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta write by 202211002267  GitHub NuRest-nuuusu>
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-com @modmsg = add></my-com>
+        <p>传递的值为：{{parnum}}</p>
+        </div>
+
+    <script>
+        const app = {
+            data() {
+                return {
+                    parnum:"",    
+                }
+            },
+            methods: {
+                add:function(data){
+                    this.parnum = data
+                }
+            },
+            components:{
+                "my-com":{
+                    data() {
+                        return {
+                            num:""
+                        }
+                    },
+                    template:'<input type=text v-model=num><button @click=change>传值</button>',
+                    methods:{
+                        change:function(){
+                            this.$emit('modmsg',this.num)
+                        }
+                    }
+                }
+            }
+        }
+        var vm = Vue.createApp(app).mount("#app")
+    </script>
+</body>
+</html>
