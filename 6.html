@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta write by 202211002267 Github@NuRest-nuuusu>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script src="https://unpkg.com/vue-router@4"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    const { createApp } = Vue;
+    const { createRouter, createWebHashHistory } = VueRouter;
+
+    const LoginPage = {
+      template: `
+        <div>
+          <h1>登陆页面</h1>
+          <form @submit.prevent="handleSubmit">
+            <div>
+              <label for="username">用户名:</label>
+              <input type="text" v-model="username" id="username" />
+            </div>
+            <div>
+              <label for="password">密码:</label>
+              <input type="password" v-model="password" id="password" />
+            </div>
+            <button type="submit">登录(Query)</button>
+            <button @click.prevent="handleParamsSubmit">登录(Params)</button>
+          </form>
+        </div>
+      `,
+      data() {
+        return {
+          username: '',
+          password: ''
+        };
+      },
+      methods: {
+        handleSubmit() {
+          this.$router.push({ name: 'display', query: { username: this.username, password: this.password } });
+        },
+        handleParamsSubmit() {
+          this.$router.push({ name: 'displayParams', params: { username: this.username, password: this.password } });
+        }
+      }
+    };
+
+    const DisplayPage = {
+      template: `
+        <div>
+          <h1>传参结果</h1>
+          <div>
+            <h2>Query:</h2>
+            <div>Username: {{ $route.query.username }}</div>
+            <div>Password: {{ $route.query.password }}</div>
+          </div>
+          <div>
+            <h2>Params:</h2>
+            <div>Username: {{ $route.params.username }}</div>
+            <div>Password: {{ $route.params.password }}</div>
+          </div>
+        </div>
+      `
+    };
+
+    const routes = [
+      { path: '/', component: LoginPage },
+      { path: '/display', name: 'display', component: DisplayPage },
+      { path: '/display-params/:username/:password', name: 'displayParams', component: DisplayPage }
+    ];
+
+    const router = createRouter({
+      history: createWebHashHistory(),
+      routes
+    });
+
+    const app = createApp({
+      template: `
+        <div>
+          <router-view></router-view>
+        </div>
+      `
+    });
+    app.use(router);
+    app.mount('#app');
+  </script>
+</body>
+</html>
