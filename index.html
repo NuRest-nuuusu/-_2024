@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta write by 202211002267 GitHub:NuRest-nuuusu>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/3.2.31/vue.global.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-if="books.length">
+            <table border=1 style="border-collapse:collapse">
+            <tr>
+                <th>
+                    全选<input type=checkbox :checked="isCheckedAll" @click="checkboxAll()" />
+                </th>
+                <th>书名</th>
+                <th>出版日期</th>
+                <th>价格</th>
+                <th>数量</th>
+                <th>操作</th>
+            </tr>
+            <tr v-for="(item,index) in books" :key="item.id">
+                <td><input type="checkbox" v-model="item.isChecked"></td>
+                <td>{{item.bookname}}</td>
+                <td>{{item.date}}</td>
+                <td>{{item.price}}</td>
+                <td>
+                    <button @click="add(index)">+</button>
+                    {{item.count}}
+                    <button @click="less(index)" :disabled="item.count<=1">-</button>
+                </td>
+                <td><button @click="del(index)">删除</button></td>
+            </tr>
+        </table>
+        <h2>总价：¥{{totalPrice}}</h2>
+        </div>
+        <h2 v-else>购物车为空</h2>
+    </div>
+    
+    
+    <script>
+        const app ={
+            data() {
+                return {
+                    books:[
+                        {
+                            id: 1,
+                            bookname: "计算机基础",
+                            date: "2015-9",
+                            price: 35,
+                            count: 1,
+                            isChecked: true
+                        },
+                        {
+                            id: 2,
+                            bookname: "单片机与传感器实战",
+                            date: "2016-8",
+                            price: 45,
+                            count: 1,
+                            isChecked: true
+                        },
+                        {
+                            id: 3,  
+                            bookname: "响应式网页设计",
+                            date: "2017-9",
+                            price: 49,
+                            count: 1,
+                            isChecked: true
+                        },
+                        {
+                            id: 4,
+                            bookname: "微信小程序开发与运营",
+                            date: "2019-3",
+                            price: 50,
+                            count: 1,
+                            isChecked: true
+                        },
+                    ]
+                }
+            },
+            methods: {
+                checkboxAll() {
+                    for (let item of this.books) {
+                        item.isChecked = true;
+                    }
+                },
+                add(index) {
+                    return this.books[index].count++;
+                },
+                less(index) {
+                    return this.books[index].count--;
+                },
+                del(index) {
+                    this.books.splice(index, 1);
+                },
+            },
+            computed:{
+                isCheckedAll() {
+                    return this.books.every(item => item.isChecked);
+                },
+                totalPrice() {
+                    let totalPrice = 0;
+                    for (let item of this.books) {
+                        if (item.isChecked) {
+                            totalPrice += item.price * item.count;
+                        }
+                    }
+                    return totalPrice
+                },
+            }
+        }
+        Vue.createApp(app).mount("#app")
+    </script>
+    
+</body>
+</html>
