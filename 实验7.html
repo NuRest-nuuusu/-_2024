@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta Write by 202211002267 GitHub@NuRest-nuuusu>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>实验7</title>
+<style>
+  .menu ul {
+    list-style: none;
+    padding: 0;
+  }
+  .submenu {
+    display: none;
+    margin-left: 20px;
+  }
+  .submenu.show {
+    display: block;
+  }
+</style>
+<script>
+  function toggleSubMenu(menuItem) {
+    var submenu = menuItem.querySelector('.submenu');
+    submenu.classList.toggle('show');
+  }
+</script>
+</head>
+<body>
+<div class="menu">
+  <ul>
+    <li onclick="toggleSubMenu(this)">
+      一级菜单 1
+      <ul class="submenu">
+        <li>二级菜单 1-1</li>
+        <li>二级菜单 1-2</li>
+        <li>二级菜单 1-3</li>
+      </ul>
+    </li>
+    <li onclick="toggleSubMenu(this)">
+        一级菜单 2
+      <ul class="submenu">
+        <li>二级菜单 2-1</li>
+        <li>二级菜单 2-2</li>
+        <li>二级菜单 2-3</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+</body>
+</html>
